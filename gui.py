@@ -116,7 +116,7 @@ class PDF_Converter:
         def start():
             input=self.txtInput.get(1.0, END)
             output=self.txtOutput.get(1.0, END)
-            i=Function.mainfunction(input, output)
+            i=Function.mainfunction(input.strip(), output.strip())
             messagebox.showinfo("Results", "The Result was: " + i)
 
         self.btnStart = Button(master, command=start)
