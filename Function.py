@@ -7,8 +7,7 @@ def browse():
     in_path = tkinter.filedialog.askopenfilename()
     return in_path
 
-
-def mainfunction(input, output):
+def Birthfunction(input, output):
     county_codes = {'ADAMS': '001'
         , 'ALCORN': '003'
         , 'AMITE': '005'
@@ -184,4 +183,117 @@ def mainfunction(input, output):
         output_array.clear()
     output.close()
 
+    return "CSV file successfully filled out."
+
+def Fertilityfunction(input,output):
+    county_codes = {'ADAMS': '001'
+        , 'ALCORN': '003'
+        , 'AMITE': '005'
+        , 'ATTALA': '007'
+        , 'BENTON': '009'
+        , 'BOLIVAR': '011'
+        , 'CALHOUN': '013'
+        , 'CARROLL': '015'
+        , 'CHICKASAW': '017'
+        , 'CHOCTAW': '019'
+        , 'CLAIBORNE': '021'
+        , 'CLARKE': '023'
+        , 'CLAY': '025'
+        , 'COAHOMA': '027'
+        , 'COPIAH': '029'
+        , 'COVINGTON': '031'
+        , 'DESOTO': '033'
+        , 'FORREST': '035'
+        , 'FRANKLIN': '037'
+        , 'GEORGE': '039'
+        , 'GREENE': '041'
+        , 'GRENADA': '043'
+        , 'HANCOCK': '045'
+        , 'HARRISON': '047'
+        , 'HINDS': '049'
+        , 'HOLMES': '051'
+        , 'HUMPHREYS': '053'
+        , 'ISSAQUENA': '055'
+        , 'ITAWAMBA': '057'
+        , 'JACKSON': '059'
+        , 'JASPER': '061'
+        , 'JEFFERSON': '063'
+        , 'JEFF DAVIS': '065'
+        , 'JONES': '067'
+        , 'KEMPER': '069'
+        , 'LAFAYETTE': '071'
+        , 'LAMAR': '073'
+        , 'LAUDERDALE': '075'
+        , 'LAWRENCE': '077'
+        , 'LEAKE': '079'
+        , 'LEE': '081'
+        , 'LEFLORE': '083'
+        , 'LINCOLN': '085'
+        , 'LOWNDES': '087'
+        , 'MADISON': '089'
+        , 'MARION': '091'
+        , 'MARSHALL': '093'
+        , 'MONROE': '095'
+        , 'MONTGOMERY': '097'
+        , 'NESHOBA': '099'
+        , 'NEWTON': '101'
+        , 'NOXUBEE': '103'
+        , 'OKTIBBEHA': '105'
+        , 'PANOLA': '107'
+        , 'PEARL RIVER': '109'
+        , 'PERRY': '111'
+        , 'PIKE': '113'
+        , 'PONTOTOC': '115'
+        , 'PRENTISS': '117'
+        , 'QUITMAN': '119'
+        , 'RANKIN': '121'
+        , 'SCOTT': '123'
+        , 'SHARKEY': '125'
+        , 'SIMPSON': '127'
+        , 'SMITH': '129'
+        , 'STONE': '131'
+        , 'SUNFLOWER': '133'
+        , 'TALLAHATCHIE': '135'
+        , 'TATE': '137'
+        , 'TIPPAH': '139'
+        , 'TISHOMINGO': '141'
+        , 'TUNICA': '143'
+        , 'UNION': '145'
+        , 'WALTHALL': '147'
+        , 'WARREN': '149'
+        , 'WASHINGTON': '151'
+        , 'WAYNE': '153'
+        , 'WEBSTER': '155'
+        , 'WILKINSON': '157'
+        , 'WINSTON': '159'
+        , 'YALOBUSHA': '161'
+        , 'YAZOO': '163'}
+
+    fp = PdfFileReader(open(input, 'rb'))
+    output = open(output, 'w+')
+    output.write("Year,County,County ID,fert_total_r,fert_white_r,fert_black_r\n")
+    pages = fp.getNumPages()
+    output_array = []
+
+    for x in range(0, pages):
+        page = fp.getPage(x).extractText()  # reading each page.
+        strings = page.splitlines()  # Each page split into an array
+
+        county_line_array = strings[0].split()  # get the county name from first line.
+        county_name = county_line_array[7]
+        county_year = county_line_array[9]
+
+        if (county_line_array[8] != "County,"):
+            county_name = county_name + " " + county_line_array[8]
+            county_year = county_line_array[10]
+        output_array.extend([county_year, county_name, "28" + county_codes[county_name.upper()]])
+        line_fertility = strings[14].split()
+        output_array.extend([line_fertility[21], line_fertility[25], line_fertility[29]])
+        outputstring = ""
+        for y in output_array:
+            outputstring = outputstring + str(y) + ","
+        outputstring += "\n"
+        output.write(outputstring)
+        output_array.clear()
+    output.close()
     return "CSV file successfully filled out."

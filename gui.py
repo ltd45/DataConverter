@@ -22,7 +22,7 @@ def vp_start_gui():
     global val, w, root
     root = Tk()
     root.title('PDF Converter')
-    geom = "610x244+650+150"
+    geom = "610x444+650+150"
     root.geometry(geom)
     w = PDF_Converter (root)
     gui_support.init(root, w)
@@ -35,7 +35,7 @@ def create_PDF_Converter(root, param=None):
     rt = root
     w = Toplevel (root)
     w.title('PDF_Converter')
-    geom = "610x244+650+150"
+    geom = "610x444+650+150"
     w.geometry(geom)
     w_win = PDF_Converter (w)
     gui_support.init(w, w_win, param)
@@ -49,9 +49,13 @@ def destroy_PDF_Converter():
 
 class PDF_Converter:
     def __init__(self, master=None):
+        checkvalue = 0
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
         master.configure(background="#d9d9d9")
-
+        v = IntVar()
+        Radiobutton(master, text="Births", variable=v, value=1).pack(anchor=W)
+        Radiobutton(master, text="Teenagers", variable=v, value=2).pack(anchor=W)
+        Radiobutton(master, text="Death", variable=v, value=3).pack(anchor=W)
 
         self.txtInput = Text(master)
         self.txtInput.place(relx=0.05, rely=0.2, relheight=0.14, relwidth=0.72)
@@ -81,6 +85,7 @@ class PDF_Converter:
 
         def inputbrowser_click():
             string = Function.browse()
+            self.txtInput.delete(0.0, END)
             self.txtInput.insert(1.0, string)
 
         self.btnInput = Button(master, command=inputbrowser_click)
@@ -98,6 +103,7 @@ class PDF_Converter:
 
         def output_click():
             string = Function.browse()
+            self.txtOutput.delete(0.0, END)
             self.txtOutput.insert(1.0, string)
 
         self.btnOutput = Button(master, command=output_click)
@@ -116,7 +122,10 @@ class PDF_Converter:
         def start():
             input=self.txtInput.get(1.0, END)
             output=self.txtOutput.get(1.0, END)
-            i=Function.mainfunction(input.strip(), output.strip())
+            if(v.get() == 1):
+                i=Function.Birthfunction(input.strip(), output.strip())
+            if(v.get() == 2):
+                i=Function.Fertilityfunction(input.strip(),output.strip())
             messagebox.showinfo("Results", "The Result was: " + i)
 
         self.btnStart = Button(master, command=start)
