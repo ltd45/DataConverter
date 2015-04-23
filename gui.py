@@ -144,11 +144,16 @@ class PDF_Converter:
             if v == '':
                 messagebox.showinfo("Error No Selected Type","You need to select a pdf type either Births or Teenagers")
                 return
-            if v == '1':
-                i = Function.Birthfunction(input.strip(), output.strip(), state.strip())
-            if v == '2':
-                i = Function.Fertilityfunction(input.strip(),output.strip(), state.strip())
-            messagebox.showinfo("Results", "The Result was: " + i)
+            try:
+                if v == '1':
+                    i = Function.Birthfunction(input.strip(), output.strip(), state.strip())
+                if v == '2':
+                    i = Function.Fertilityfunction(input.strip(),output.strip(), state.strip())
+                messagebox.showinfo("Results", i)
+                return
+            except:
+                messagebox.showinfo("Error", "The Files did not match needed formats.")
+                return
 
 
         self.btnStart = Button(master,command=start)
@@ -212,8 +217,7 @@ class PDF_Converter:
         self.radio_Birth.configure(variable=gui_support.v)
 
         self.Radio_Teenagers = Radiobutton(master)
-        self.Radio_Teenagers.place(relx=0.83, rely=0.22, relheight=0.1
-                , relwidth=0.15)
+        self.Radio_Teenagers.place(relx=0.83, rely=0.22, relheight=0.1, relwidth=0.15)
         self.Radio_Teenagers.configure(activebackground="#d9d9d9")
         self.Radio_Teenagers.configure(activeforeground="#000000")
         self.Radio_Teenagers.configure(background=_bgcolor)
@@ -225,11 +229,7 @@ class PDF_Converter:
         self.Radio_Teenagers.configure(text='''Teenagers''')
         self.Radio_Teenagers.configure(value="2")
         self.Radio_Teenagers.configure(variable=gui_support.v)
-
-        self.menubar = Menu(master,bg=_bgcolor,fg=_fgcolor)
-        master.configure(menu = self.menubar)
-
-
+        self.radio_Birth.invoke()
 
         self.txtstate = Text(master)
         self.txtstate.place(relx=0.03, rely=0.36, relheight=0.12, relwidth=0.65)

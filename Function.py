@@ -15,10 +15,11 @@ def StateBirth(state):
     strings = page.splitlines()  # Each page split into an array
 
     county_line_array = strings[0].split()  # get the county name from first line.
-    county_name = county_line_array[6]
-    county_year = county_line_array[7]
+    county_name = county_line_array[6] #get the name of the state
+    county_year = county_line_array[7] #get the year
     output_array.extend([county_year, county_name, "28000"])
 
+    #this next section is to put the contents of the lines we need into arrays and to strip the ',' out of any numbers bigger then 999
     line_undereight = strings[28].split()
     index = 0
     for element in line_undereight:
@@ -95,7 +96,7 @@ def StateBirth(state):
         z = element.replace(',', '')
         line_total[index] = z
         index += 1
-
+    #calculte all the variables needed for output csv.
     total_nohighschool = float(line_undereight[14]) + float(line_ninetotwelve[6])
     white_nohighschool = float(line_undereight[15]) + float(line_ninetotwelve[7])
     black_nohighschool = float(line_undereight[16]) + float(line_ninetotwelve[8])
@@ -130,7 +131,7 @@ def StateBirth(state):
     totalpercent_premature = float(line_premature[8])
     whitepercent_premature = float(line_premature[9])
     blackpercent_premature = float(line_premature[10])
-
+    #put output variables into an array
     output_array.extend([total_nohighschool, white_nohighschool, black_nohighschool,
                          "{0:.3f}".format(totalpercent_nohighschool / 100),
                          "{0:.3f}".format(whitepercent_nohighschool / 100),
@@ -332,7 +333,7 @@ def Birthfunction(input, output, state):
                              "{0:.3f}".format(whitepercent_premature / 100),
                              "{0:.3f}".format(blackpercent_premature / 100)])
         output_array.extend([line_total[2], line_total[3], line_total[4]])
-
+        #build ouputstring and write to file.
         outputstring = ""
         for y in output_array:
             z = str(y).replace(',', '')
@@ -375,7 +376,7 @@ def StateFertility(state):
     black = int(line_pregnancy_rate[68]) - int(line_pregnancy_rate[69])
 
     output_array.extend([total, white, black])
-
+    #build output string and return.
     outputstring = ""
     for y in output_array:
         z = str(y).replace(',', '')
@@ -498,7 +499,7 @@ def Fertilityfunction(input, output, state):
         black = int(line_pregnancy_rate[68]) - int(line_pregnancy_rate[69])
 
         output_array.extend([total, white, black])
-
+        #build output string and write to file.
         outputstring = ""
         for y in output_array:
             z = str(y).replace(',', '')
